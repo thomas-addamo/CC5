@@ -43,17 +43,19 @@ class Potion:
 # Methods 
     def apply_to(self, target):
         if self.__applied:
-            return  # Potion has already been applied
+            return False # Potion has already been applied
 
         if self.effect == "heal":
             if hasattr(target, 'heal') and callable(getattr(target, 'heal')):
                 target.heal(self.__amount)
                 self.__applied = True
+                return True
 
         elif self.effect == "buff_str" or self.effect == "buff_dex":
             if hasattr(target, 'buff') and callable(getattr(target, 'buff')):
                 target.buff(self.__effect, self.__amount, self.__duration)
                 self.__applied = True
+                return True
 
         else:
             raise ValueError("Unknown effect type.")
