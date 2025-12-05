@@ -22,7 +22,6 @@ class GameController:
         self.__view.display_welcome_message(self.__player1, self.__player2)
 
         while self.__player1.is_alive() and self.__player2.is_alive():
-            self.__view.display_turn_info(attacker, defender)
             self.handle_turn(attacker, defender)
 
             attacker, defender = defender, attacker
