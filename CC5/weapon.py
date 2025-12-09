@@ -5,13 +5,13 @@ class Weapon:
         if name == "":
             raise ValueError("Name cannot be empty.")
 
-        if min_damage < 1 and min_damage > max_damage:
-            raise ValueError("Minimum damage must be at least 1 and less than maximum damage.")
+        if min_damage < 1:
+            raise ValueError("Minimum damage must be at least 1.")
 
-        if max_damage <= min_damage:
+        if max_damage < min_damage:
             raise ValueError("Maximum damage must be at least equal to minimum damage.")
 
-        if not weapon_type == "melee" and not weapon_type == "ranged":
+        if weapon_type not in ("melee", "ranged"):
             raise ValueError("Type must be either 'melee' or 'ranged'.")
 
         self.__name = name

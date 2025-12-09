@@ -21,7 +21,7 @@
     {
     "name": "Mazzetta",
     "min_damage": 1,
-    "max_damage": 1,
+    "max_damage": 100,
     "type": "melee"
     },
     {

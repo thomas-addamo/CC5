@@ -1,3 +1,4 @@
+from player import Player
 class ConsoleView:
     def __init__(self):
         pass
@@ -28,25 +29,22 @@ class ConsoleView:
             weapon = f"Attack with {default_weapon_name}"
         print(f"{player_name} uses: {weapon}")
 
-    # Nuovo contratto: usa DTO (dizionari) ma mantiene i vecchi nomi interni
-    def show_initial_stats(self, p1_state: dict, p2_state: dict):
-        # --- Unpack Player 1 state (stessi nomi di variabili di prima) ---
-        p1_name = p1_state["p1_name"]
-        p1_hp = p1_state["p1_hp"]
-        p1_mhp = p1_state["p1_mhp"]
-        p1_str = p1_state["p1_str"]
-        p1_dex = p1_state["p1_dex"]
-        p1_weap = p1_state["p1_weap"]
-        p1_pot = p1_state["p1_pot"]
+    def show_initial_stats(self, p1: Player, p2: Player):
+        p1_name = p1.name
+        p1_hp = p1.health
+        p1_mhp = p1.max_health
+        p1_str = p1.strength
+        p1_dex = p1.dexterity
+        p1_weap = p1.weapon
+        p1_pot = p1.potions
 
-        # --- Unpack Player 2 state ---
-        p2_name = p2_state["p2_name"]
-        p2_hp = p2_state["p2_hp"]
-        p2_mhp = p2_state["p2_mhp"]
-        p2_str = p2_state["p2_str"]
-        p2_dex = p2_state["p2_dex"]
-        p2_weap = p2_state["p2_weap"]
-        p2_pot = p2_state["p2_pot"]
+        p2_name = p2.name
+        p2_hp = p2.health
+        p2_mhp = p2.max_health
+        p2_str = p2.strength
+        p2_dex = p2.dexterity
+        p2_weap = p2.weapon
+        p2_pot = p2.potions
 
         print("\n" + "=" * 40)
         print("🤺 | Characters:")
@@ -66,7 +64,6 @@ class ConsoleView:
         max_len = max(len(p1_stats), len(p2_stats))
         border = "-" * max_len
 
-        # Adjust lines to same length for a neat box
         p1_stats = p1_stats.ljust(max_len)
         p2_stats = p2_stats.ljust(max_len)
 
