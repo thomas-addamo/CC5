@@ -18,26 +18,43 @@ class GameController:
     def start_game_loop(self):
         self.__view.show_welcome()
         self.__view.show_initial_stats(self.__player1, self.__player2)
-        attacker = self.who_start_first()
+        attacker = self.__who_start_first()
         defender = self.__player2 if attacker == self.__player1 else self.__player1
+        turn_number = 0
 
         while self.__player1.is_alive() and self.__player2.is_alive():
-            turn = self.handle_turn(attacker, defender)
+            turn_number += 1
+            buff_finished = attacker.tick_buffs()
+            if buff_finished:
+                self.__view.show_effect_finished(attacker.name, "A buff has expired.")
+            buff_finished = defender.tick_buffs()
+            if buff_finished:
+                self.__view.show_effect_finished(defender.name, "A buff has expired.")
+            print("\n")
+
+            self.__view.show_turn_header(turn_number)
+            self.__view.show_player_turn(attacker.name)
+
+            turn = self.__handle_turn(attacker, defender)
             if isinstance(turn, int):
                 self.__view.show_attack_result(attacker.name, defender.name, turn)
             else:
                 self.__view.show_potion_decision(attacker.name, turn.name)
             attacker, defender = defender, attacker
+            print("\n")
+            self.__view.show_player_stats(self.__player1)
+            self.__view.show_player_stats(self.__player2)
+            print("\n")
 
         winner = attacker if attacker.is_alive() else defender
         self.__view.show_winner(winner.name)
 
-    def handle_turn(self, attacker: Player, defender: Player):
+    def __handle_turn(self, attacker: Player, defender: Player):
         decision = attacker.should_use_potion()
 
         if decision == "health":
             for potion in attacker.potions:
-                if potion.effect == "health" and not potion.applied:
+                if potion.effect == "heal" and not potion.applied:
                     used = potion.apply_to(attacker)
                     if used:
                         return potion
@@ -53,7 +70,7 @@ class GameController:
         return int(damage)
 
 
-    def who_start_first(self):
+    def __who_start_first(self):
         return choice([self.__player1, self.__player2])
     
     def __new__(cls, *args, **kwargs):

@@ -72,10 +72,24 @@ class ConsoleView:
         print(p2_stats)
         print(border + "\n")
 
+    def show_player_stats(self, player: Player):
+        print(f"📊 | {player.name} Stats:")
+        print(f"  Health: {player.health}/{player.max_health}")
+        print(f"  Strength: {player.strength}")
+        print(f"  Dexterity: {player.dexterity}")
+        print(f"  Weapon: {player.weapon}")
+        print(f"  Potions: {player.potions}")
+
     def show_turn_header(self, turn_number):
         print("\n" + "-" * 40)
         print(f"--- 🔄 Turn {turn_number} 🔄 ---")
         print("-" * 40 + "\n")
+
+    def show_effect_finished(self, player_name, effect_desc):
+        print(f"⏳ | {player_name}'s effect has finished: {effect_desc}")
+    
+    def show_player_turn(self, player_name):
+        print(f"➡️ | It's {player_name}'s turn.")
 
     def show_potion_decision(self, player_name, potion_name):
         print(f"🍾 | {player_name} uses the potion: {potion_name}")

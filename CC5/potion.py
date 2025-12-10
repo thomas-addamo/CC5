@@ -61,6 +61,8 @@ class Potion:
             raise ValueError("Unknown effect type.")
 
     def __str__(self):
+        if self.applied:
+            return f"{self.name} (applied)"
         return f"Name: {self.name}, effect: {self.effect}, amount: {self.amount}, duration: {self.duration}"
     
     def __repr__(self):

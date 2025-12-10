@@ -38,7 +38,7 @@ class Player:
     
     @property
     def max_health(self):
-        return self.__health
+        return self.__max_health
     
     @property
     def health(self):
@@ -135,19 +135,20 @@ class Player:
             if buff[2] <= 0:
                 if buff[0] == "buff_str":
                     self.__currently_strength -= buff[1]
+                    self.__buffs.remove(buff)
                     return True
                 elif buff[0] == "buff_dex":
                     self.__currently_dexterity -= buff[1]
+                    self.__buffs.remove(buff)
                     return True
         return False
 
 # Private methods to decide potion usage
     def __should_use_potion_health(self):
-        if self.__health / self.__max_health < 0.3 and any(p.effect == "health" for p in self.__potions):
-            for p in self.__potions:
-                if p.applied:
-                    return False
-            return True
+        if self.__health / self.__max_health < 0.5:
+            for potion in self.__potions:
+                if potion.effect == "heal" and not potion.applied:
+                    return True
         return False
         
     def __should_use_potion_buff(self):
