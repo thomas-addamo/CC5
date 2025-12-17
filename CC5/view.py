@@ -1,112 +1,116 @@
 from player import Player
+
+from colorama import init, Fore, Style
+
+# Inizializza Colorama (autoreset evita di dover resettare manualmente ogni volta)
+init(autoreset=True)
+
+
 class ConsoleView:
     def __init__(self):
         pass
 
     def show_welcome(self):
-        print("=" * 40)
-        print("-- 👑 WELCOME TO CODE COMBAT 👑 --")
-        print("=" * 40)
-        print("")
-        print("📃 | Instructions:")
+        title = "👑 WELCOME TO CODE COMBAT 👑"
+        line = "═" * 52
+        print(Fore.CYAN + line)
+        print(Fore.CYAN + "║" + Style.BRIGHT + Fore.YELLOW + title.center(50) + Fore.CYAN + "║")
+        print(Fore.CYAN + line)
+        print()
+        print(Style.BRIGHT + Fore.WHITE + "📃  Instructions")
+        print(Fore.CYAN + "─" * 52)
         print(
-            "  In this simulation, two characters will be created randomly\n"
-            "  with various stats, a weapon and two potions.\n"
-            "  The two characters will then fight each other."
+            Fore.WHITE
+            +   "  In this simulation, two characters will be created randomly\n"
+                "  with various stats, a weapon and two potions.\n"
+                "  The two characters will then fight each other."
         )
-        print("")
-        print("== Combat simulation starts ==\n")
+        print()
+        print(Style.BRIGHT + Fore.MAGENTA + "== Combat simulation starts ==" + Style.RESET_ALL + "\n")
 
     def show_validation_error(self, component: str, message: str):
-        print("⛔️ | ERROR:")
-        print(f"  Component: {component}")
-        print(f"  Message: {message}\n")
+        print(Style.BRIGHT + Fore.RED + "⛔️  ERROR")
+        print(Fore.RED + "─" * 52)
+        print(Fore.WHITE + f"  Component: {Style.BRIGHT}{component}{Style.RESET_ALL}")
+        print(Fore.WHITE + f"  Message:   {Style.BRIGHT}{message}{Style.RESET_ALL}\n")
 
     def show_default_weapon(self, player_name, default_weapon_name):
         if default_weapon_name is None:
             weapon = "Bare-handed attack"
         else:
             weapon = f"Attack with {default_weapon_name}"
-        print(f"{player_name} uses: {weapon}")
+        print(Fore.WHITE + f"{Style.BRIGHT}{player_name}{Style.RESET_ALL} uses: "
+            f"{Fore.YELLOW}{weapon}{Style.RESET_ALL}")
 
     def show_initial_stats(self, p1: Player, p2: Player):
-        p1_name = p1.name
-        p1_hp = p1.health
-        p1_mhp = p1.max_health
-        p1_str = p1.strength
-        p1_dex = p1.dexterity
-        p1_weap = p1.weapon
-        p1_pot = p1.potions
+        print("\n" + Fore.CYAN + "═" * 52)
+        print(Style.BRIGHT + Fore.CYAN + "🤺  Characters".center(52))
+        print(Fore.CYAN + "═" * 52)
 
-        p2_name = p2.name
-        p2_hp = p2.health
-        p2_mhp = p2.max_health
-        p2_str = p2.strength
-        p2_dex = p2.dexterity
-        p2_weap = p2.weapon
-        p2_pot = p2.potions
+        for p in [p1, p2]:
+            print(Style.BRIGHT + Fore.YELLOW + f"[{p.name}]".center(52))
+            print(Fore.WHITE + f"  Health:    {Style.BRIGHT}{Fore.GREEN}{p.health}/{p.max_health}{Style.RESET_ALL}")
+            print(Fore.WHITE + f"  Strength:  {Style.BRIGHT}{Fore.MAGENTA}{p.strength}{Style.RESET_ALL}")
+            print(Fore.WHITE + f"  Dexterity: {Style.BRIGHT}{Fore.MAGENTA}{p.dexterity}{Style.RESET_ALL}")
+            
+            weapon_display = p.weapon.name if p.weapon else "Bare-handed"
+            print(Fore.WHITE + f"  Weapon:    {Style.BRIGHT}{Fore.YELLOW}{weapon_display}{Style.RESET_ALL}")
+            
+            potions_display = ", ".join([pot.name for pot in p.potions]) if p.potions else "None"
+            print(Fore.WHITE + f"  Potions:   {Style.BRIGHT}{Fore.CYAN}{potions_display}{Style.RESET_ALL}")
+            print()
 
-        print("\n" + "=" * 40)
-        print("🤺 | Characters:")
-        print("=" * 40)
-
-        p1_stats = (
-            f"| {p1_name}: HP {p1_hp}/{p1_mhp}, "
-            f"Strength {p1_str}, Dexterity {p1_dex}, "
-            f"Weapon: {p1_weap}, Potions: {p1_pot} |"
-        )
-        p2_stats = (
-            f"| {p2_name}: HP {p2_hp}/{p2_mhp}, "
-            f"Strength {p2_str}, Dexterity {p2_dex}, "
-            f"Weapon: {p2_weap}, Potions: {p2_pot} |"
-        )
-
-        max_len = max(len(p1_stats), len(p2_stats))
-        border = "-" * max_len
-
-        p1_stats = p1_stats.ljust(max_len)
-        p2_stats = p2_stats.ljust(max_len)
-
-        print(border)
-        print(p1_stats)
-        print(p2_stats)
-        print(border + "\n")
+        print(Fore.CYAN + "═" * 52 + "\n")
 
     def show_player_stats(self, player: Player):
-        print(f"📊 | {player.name} Stats:")
-        print(f"  Health: {player.health}/{player.max_health}")
-        print(f"  Strength: {player.strength}")
-        print(f"  Dexterity: {player.dexterity}")
-        print(f"  Weapon: {player.weapon}")
-        print(f"  Potions: {player.potions}")
+        print(Style.BRIGHT + Fore.WHITE + f"📊  {player.name} Stats")
+        print(Fore.CYAN + "─" * 52)
+        print(Fore.WHITE + f"  Health:    {Style.BRIGHT}{Fore.GREEN}{player.health}/{player.max_health}{Style.RESET_ALL}")
+        print(Fore.WHITE + f"  Strength:  {Style.BRIGHT}{Fore.MAGENTA}{player.strength}{Style.RESET_ALL}")
+        print(Fore.WHITE + f"  Dexterity: {Style.BRIGHT}{Fore.MAGENTA}{player.dexterity}{Style.RESET_ALL}")
+        print(Fore.WHITE + f"  Weapon:    {Style.BRIGHT}{Fore.YELLOW}{player.weapon}{Style.RESET_ALL}")
+        print(Fore.WHITE + f"  Potions:   {Style.BRIGHT}{Fore.CYAN}{player.potions}{Style.RESET_ALL}")
 
     def show_turn_header(self, turn_number):
-        print("\n" + "-" * 40)
-        print(f"--- 🔄 Turn {turn_number} 🔄 ---")
-        print("-" * 40 + "\n")
+        line = "─" * 52
+        print("\n" + Fore.BLUE + line)
+        print(Style.BRIGHT + Fore.BLUE + f"🔄  Turn {turn_number}".center(52))
+        print(Fore.BLUE + line + "\n")
 
     def show_effect_finished(self, player_name, effect_desc):
-        print(f"⏳ | {player_name}'s effect has finished: {effect_desc}")
-    
+        print(Fore.YELLOW + f"⏳  {Style.BRIGHT}{player_name}{Style.RESET_ALL}{Fore.YELLOW}'s effect has finished: "
+            f"{Fore.WHITE}{effect_desc}")
+
     def show_player_turn(self, player_name):
-        print(f"➡️ | It's {player_name}'s turn.")
+        print(Fore.CYAN + f"➡️  It's {Style.BRIGHT}{player_name}{Style.RESET_ALL}{Fore.CYAN}'s turn.")
 
     def show_potion_decision(self, player_name, potion_name):
-        print(f"🍾 | {player_name} uses the potion: {potion_name}")
+        print(Fore.CYAN + f"🍾  {Style.BRIGHT}{player_name}{Style.RESET_ALL}{Fore.CYAN} uses the potion: "
+            f"{Style.BRIGHT}{Fore.YELLOW}{potion_name}{Style.RESET_ALL}")
 
     def show_action_failure(self, player_name, action_name, reason):
-        print(f"❌ | {player_name} fails to {action_name}: {reason}")
+        print(Fore.RED + f"❌  {Style.BRIGHT}{player_name}{Style.RESET_ALL}{Fore.RED} fails to "
+            f"{Style.BRIGHT}{action_name}{Style.RESET_ALL}{Fore.RED}: {Fore.WHITE}{reason}")
 
     def show_potion_success(self, player_name, effect_desc, current_hp_msg):
-        print(f"✅ | {player_name} uses a potion with effect: {effect_desc}. {current_hp_msg}")
+        print(Fore.GREEN + f"✅  {Style.BRIGHT}{player_name}{Style.RESET_ALL}{Fore.GREEN} uses a potion with effect: "
+            f"{Fore.WHITE}{effect_desc}{Fore.GREEN}. {Fore.WHITE}{current_hp_msg}")
 
     def show_attack_result(self, attacker_name, defender_name, damage):
-        print(f"⚔️ | {attacker_name} attacks {defender_name} dealing {damage} damage.")
+        dmg_color = Fore.GREEN if damage > 0 else Fore.YELLOW
+        print(Fore.WHITE + "⚔️  "
+            + Style.BRIGHT + Fore.YELLOW + f"{attacker_name}" + Style.RESET_ALL
+            + Fore.WHITE + " attacks "
+            + Style.BRIGHT + Fore.YELLOW + f"{defender_name}" + Style.RESET_ALL
+            + Fore.WHITE + " dealing "
+            + Style.BRIGHT + dmg_color + f"{damage}" + Style.RESET_ALL
+            + Fore.WHITE + " damage.")
 
     def show_winner(self, winner_name):
-        print("\n" + "=" * 40)
-        print(f"🏆 | {winner_name} has won the fight!")
-        print("=" * 40 + "\n")
+        line = "═" * 52
+        print("\n" + Fore.GREEN + line)
+        print(Style.BRIGHT + Fore.GREEN + f"🏆  {winner_name} has won the fight!".center(52))
+        print(Fore.GREEN + line + "\n")
 
     def get_user_input(self, prompt):
-        return input(prompt)
+        return input(Style.BRIGHT + Fore.WHITE + prompt + Style.RESET_ALL)

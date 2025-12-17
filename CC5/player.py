@@ -113,7 +113,7 @@ class Player:
         enemy.take_damage(total_damage)
         return total_damage
 
-    def heal(self, amount: int) -> int:
+    def heal(self, amount: int) -> int: # Cura
         if self.__health + amount > self.__max_health:
             amount = self.__max_health - self.__health
             self.__health = self.__max_health
@@ -121,7 +121,7 @@ class Player:
             self.__health += amount
         return amount
 
-    def buff(self, effect: str, amount: int, duration: int) -> None:
+    def buff(self, effect: str, amount: int, duration: int) -> None: # Potenziamento
         if effect == "buff_str":
             self.__currently_strength += amount
             self.__buffs.append([effect, amount, duration])
@@ -131,7 +131,7 @@ class Player:
 
     def tick_buffs(self) -> bool:
         for buff in self.__buffs:
-            buff[2] -= 1
+            buff[2] -= 1 # Viene diminuita di uno la durata del buff
             if buff[2] <= 0:
                 if buff[0] == "buff_str":
                     self.__currently_strength -= buff[1]
